@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Sales & Orders</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/stylesheet/admin-dashboard.css">
+</head>
+
+<body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <i class="fas fa-chart-line"></i>
+                <span>Admin Panel</span>
+            </div>
+            <button class="sidebar-toggle" id="sidebar-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <nav class="sidebar-nav">
+            <ul class="nav-menu">
+                <li class="nav-item active">
+                    <a href="#" class="nav-link" data-section="dashboard">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <button id="admin-logout-btn" class="nav-link logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+                <a href="../index.html" class="nav-link back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Store</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <!-- Top Header -->
+        <div class="top-header">
+            <div class="header-left">
+                <h1 id="page-title">Dashboard</h1>
+                <p id="page-subtitle">Welcome back, Admin</p>
+            </div>
+            <div class="header-right">
+                <div class="header-datetime">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span id="current-date"></span>
+                </div>
+                <div class="header-user-menu">
+                    <button class="user-avatar-btn" id="admin-profile-btn">
+                        <i class="fas fa-user-circle"></i>
+                        <span id="admin-username">Admin</span>
+                    </button>
+                    <div class="user-dropdown" id="user-dropdown" style="display: none;">
+                        <div class="dropdown-item">
+                            <strong id="admin-dropdown-username">Admin</strong>
+                            <p id="admin-dropdown-email">admin@example.com</p>
+                        </div>
+                        <hr>
+                        <a href="#" class="dropdown-link">Settings</a>
+                        <a href="#" class="dropdown-link">Profile</a>
+                        <hr>
+                        <button id="dropdown-logout-btn" class="dropdown-link logout-link">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div class="content-wrapper">
+            <!-- Summary Cards Section -->
+            <section class="summary-cards">
+                <div class="summary-card total-sales">
+                    <div class="card-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-label">Total Sales</p>
+                        <h3 class="card-value">₱142,895</h3>
+                        <p class="card-change positive"><i class="fas fa-arrow-up"></i> +12.5% from last month</p>
+                    </div>
+                </div>
+
+                <div class="summary-card total-orders">
+                    <div class="card-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-label">Total Orders</p>
+                        <h3 class="card-value">1,234</h3>
+                        <p class="card-change positive"><i class="fas fa-arrow-up"></i> +8.3% from last month</p>
+                    </div>
+                </div>
+
+                <div class="summary-card revenue">
+                    <div class="card-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-label">Revenue</p>
+                        <h3 class="card-value">₱89,450</h3>
+                        <p class="card-change positive"><i class="fas fa-arrow-up"></i> +15.2% from last month</p>
+                    </div>
+                </div>
+
+                <div class="summary-card total-customers">
+                    <div class="card-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-label">Total Customers</p>
+                        <h3 class="card-value">856</h3>
+                        <p class="card-change positive"><i class="fas fa-arrow-up"></i> +6.9% from last month</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analytics Section -->
+            <section class="analytics-section">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h2>Sales Analytics</h2>
+                        <div class="chart-filters">
+                            <button class="filter-btn active" data-filter="week">Week</button>
+                            <button class="filter-btn" data-filter="month">Month</button>
+                            <button class="filter-btn" data-filter="year">Year</button>
+                        </div>
+                    </div>
+                    <canvas id="sales-chart"></canvas>
+                </div>
+            </section>
+
+            <!-- Tables Section -->
+            <div class="tables-container">
+                <!-- Recent Sales Table -->
+                <section class="table-section">
+                    <div class="table-header">
+                        <h2>Recent Sales</h2>
+                        <a href="#" class="view-all-link">View All</a>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Product</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#ORD001982</td>
+                                    <td>
+                                        <div class="customer-info">
+                                            <div class="customer-avatar">MD</div>
+                                            <span>Maria Delgado</span>
+                                        </div>
+                                    </td>
+                                    <td>RTX 4090 Graphics Card</td>
+                                    <td>May 15, 2026</td>
+                                    <td class="amount">₱45,999</td>
+                                    <td><span class="badge completed">Completed</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD001981</td>
+                                    <td>
+                                        <div class="customer-info">
+                                            <div class="customer-avatar">JC</div>
+                                            <span>Juan Cervantes</span>
+                                        </div>
+                                    </td>
+                                    <td>Mechanical Gaming Keyboard</td>
+                                    <td>May 16, 2026</td>
+                                    <td class="amount">₱3,499</td>
+                                    <td><span class="badge completed">Completed</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD001980</td>
+                                    <td>
+                                        <div class="customer-info">
+                                            <div class="customer-avatar">AG</div>
+                                            <span>Angela Garcia</span>
+                                        </div>
+                                    </td>
+                                    <td>27" 4K Monitor</td>
+                                    <td>May 17, 2026</td>
+                                    <td class="amount">₱18,599</td>
+                                    <td><span class="badge pending">Pending</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD001979</td>
+                                    <td>
+                                        <div class="customer-info">
+                                            <div class="customer-avatar">RC</div>
+                                            <span>Roberto Castillo</span>
+                                        </div>
+                                    </td>
+                                    <td>Wireless Gaming Mouse</td>
+                                    <td>May 18, 2026</td>
+                                    <td class="amount">₱2,299</td>
+                                    <td><span class="badge completed">Completed</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD001978</td>
+                                    <td>
+                                        <div class="customer-info">
+                                            <div class="customer-avatar">SL</div>
+                                            <span>Sofia Lopez</span>
+                                        </div>
+                                    </td>
+                                    <td>Corsair Liquid Cooler</td>
+                                    <td>May 19, 2026</td>
+                                    <td class="amount">₱8,999</td>
+                                    <td><span class="badge completed">Completed</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD001977</td>
+                                    <td>
+                                        <div class="customer-info">
+                                            <div class="customer-avatar">MR</div>
+                                            <span>Miguel Rosales</span>
+                                        </div>
+                                    </td>
+                                    <td>Ryzen 9 7950X Processor</td>
+                                    <td>May 20, 2026</td>
+                                    <td class="amount">₱27,899</td>
+                                    <td><span class="badge processing">Processing</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Recent Orders Table -->
+                <section class="table-section">
+                    <div class="table-header">
+                        <h2>Recent Orders</h2>
+                        <a href="#" class="view-all-link">View All</a>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Items</th>
+                                    <th>Order Date</th>
+                                    <th>Total</th>
+                                    <th>Payment Status</th>
+                                    <th>Delivery Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#ORD001982</td>
+                                    <td>
+                                        <div class="customer-info">
+                                            <div class="customer-avatar">MD</div>
+                                            <span>Maria Delgado</span>
+                                        </div>
+                                    </td>
+                                    <td>1 item</td>
+                                    <td>May 15, 2026</td>
+                                    <td class="amount">₱45,999</td>
+                                    <td><span class="badge paid">Paid</span></td>
+                                    <td><span class="badge completed">Delivered</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD001981</td>
+                                    <td>
+                                        <div class="customer-info">
+                                            <div class="customer-avatar">JC</div>
+                                            <span>Juan Cervantes</span>
+                                        </div>
+                                    </td>
+                                    <td>3 items</td>
+                                    <td>May 16, 2026</td>
+                                    <td class="amount">₱12,499</td>
+                                    <td><span class="badge paid">Paid</span></td>
+                                    <td><span class="badge completed">Delivered</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD001980</td>
+                                    <td>
+                                        <div class="customer-info">
+                                            <div class="customer-avatar">AG</div>
+                                            <span>Angela Garcia</span>
+                                        </div>
+                                    </td>
+                                    <td>2 items</td>
+                                    <td>May 17, 2026</td>
+                                    <td class="amount">₱28,899</td>
+                                    <td><span class="badge pending">Pending</span></td>
+                                    <td><span class="badge processing">In Transit</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD001979</td>
+                                    <td>
+                                        <div class="customer-info">
+                                            <div class="customer-avatar">RC</div>
+                                            <span>Roberto Castillo</span>
+                                        </div>
+                                    </td>
+                                    <td>2 items</td>
+                                    <td>May 18, 2026</td>
+                                    <td class="amount">₱19,499</td>
+                                    <td><span class="badge paid">Paid</span></td>
+                                    <td><span class="badge completed">Delivered</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD001978</td>
+                                    <td>
+                                        <div class="customer-info">
+                                            <div class="customer-avatar">SL</div>
+                                            <span>Sofia Lopez</span>
+                                        </div>
+                                    </td>
+                                    <td>1 item</td>
+                                    <td>May 19, 2026</td>
+                                    <td class="amount">₱8,999</td>
+                                    <td><span class="badge paid">Paid</span></td>
+                                    <td><span class="badge completed">Delivered</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD001977</td>
+                                    <td>
+                                        <div class="customer-info">
+                                            <div class="customer-avatar">MR</div>
+                                            <span>Miguel Rosales</span>
+                                        </div>
+                                    </td>
+                                    <td>4 items</td>
+                                    <td>May 20, 2026</td>
+                                    <td class="amount">₱35,799</td>
+                                    <td><span class="badge paid">Paid</span></td>
+                                    <td><span class="badge processing">Processing</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="../assets/script/auth.js"></script>
+    <script src="../assets/script/admin-dashboard.js"></script>
+</body>
+
+</html>

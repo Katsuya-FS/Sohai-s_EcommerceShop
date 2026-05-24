@@ -1,0 +1,209 @@
+<header class="site-header">
+    <div class="header-container">
+        <a data-path="index.html" href="index.html" class="logo">
+            <span class="logo-text">Sohai's</span>
+        </a>
+
+        <div class="search-bar">
+            <input type="text" placeholder="Search products..." class="search-input">
+            <button class="search-btn">🔍</button>
+        </div>
+
+        <nav class="main-nav">
+            <ul class="nav-list">
+                <li><a data-path="index.html" href="index.html">Home</a></li>
+                <li><a data-path="pages/pc-mac.html" href="pages/pc-mac.html">Products</a></li>
+                <li><a data-path="pages/buildAPc.html" href="pages/buildAPc.html">Build A PC</a></li>
+            </ul>
+            <div class="header-right-section">
+                <div class="auth-buttons">
+                    <a href="#" class="btn-login" id="btn-login-header">Log In</a>
+                    <a href="#" class="btn-register" id="btn-register-header">Register</a>
+                    <button type="button" class="btn-user" id="btn-user-header" style="display: none;"></button>
+                    <a data-path="pages/adminView.html" href="pages/adminView.html" class="btn-admin-dashboard"
+                        id="btn-admin-dashboard" style="display: none;" title="Admin Dashboard">
+                        <i class="fas fa-chart-bar"></i> Admin Dashboard
+                    </a>
+                </div>
+                <div class="cart-container">
+                    <button class="cart-button" id="cart-button" title="Shopping Cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span id="cart-count-badge" class="cart-badge" style="display: none;">0</span>
+                    </button>
+                    <div id="cart-dropdown" class="cart-dropdown" style="display: none;">
+                        <div class="cart-dropdown-header">
+                            <h3>Shopping Cart</h3>
+                            <button class="close-dropdown" id="close-cart-dropdown">&times;</button>
+                        </div>
+                        <div id="cart-items-list" class="cart-items-list">
+                            <!-- Cart items will be added here dynamically -->
+                        </div>
+                        <div class="cart-dropdown-footer">
+                            <div class="cart-footer-total">
+                                <span>Total</span>
+                                <strong id="cart-total-amount">₱0</strong>
+                            </div>
+                            <button id="checkout-button" class="cart-checkout-btn">Proceed to Checkout</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<div id="checkout-modal" class="modal" style="display: none;">
+    <div class="modal-content checkout-modal-content">
+        <div class="modal-header">
+            <h2>Checkout</h2>
+            <button class="close-modal" id="close-checkout-modal">&times;</button>
+        </div>
+        <div class="checkout-body">
+            <div id="checkout-loading" class="checkout-loading hidden">
+                <div class="loader"></div>
+                <p>Processing payment...</p>
+            </div>
+
+            <div id="checkout-step" class="checkout-step">
+                <div class="checkout-summary">
+                    <h3>Order summary</h3>
+                    <div id="checkout-items-list" class="checkout-items-list"></div>
+                    <div class="summary-total">
+                        <span>Total</span>
+                        <strong id="checkout-total-amount">₱0</strong>
+                    </div>
+                </div>
+
+                <div class="payment-methods-group">
+                    <h3>Payment method</h3>
+                    <div class="payment-methods">
+                        <label class="payment-card selected">
+                            <input type="radio" name="paymentMethod" value="visa" checked>
+                            <span class="payment-icon visa">V</span>
+                            Visa
+                        </label>
+                        <label class="payment-card">
+                            <input type="radio" name="paymentMethod" value="mastercard">
+                            <span class="payment-icon mastercard">M</span>
+                            MasterCard
+                        </label>
+                        <label class="payment-card">
+                            <input type="radio" name="paymentMethod" value="gcash">
+                            <span class="payment-icon gcash">G</span>
+                            GCash
+                        </label>
+                        <label class="payment-card">
+                            <input type="radio" name="paymentMethod" value="paypal">
+                            <span class="payment-icon paypal">P</span>
+                            PayPal
+                        </label>
+                    </div>
+                </div>
+
+                <form id="checkout-form" class="checkout-form" novalidate>
+                    <div class="field-group">
+                        <label for="checkout-card-name">Cardholder Name</label>
+                        <input type="text" id="checkout-card-name" name="checkoutCardName" placeholder="Jane Doe"
+                            autocomplete="cc-name" required>
+                        <span class="error-message" id="checkout-error-name"></span>
+                    </div>
+                    <div class="field-group">
+                        <label for="checkout-card-number">Card Number</label>
+                        <input type="text" id="checkout-card-number" name="checkoutCardNumber"
+                            placeholder="1234 5678 9012 3456" inputmode="numeric" maxlength="19"
+                            autocomplete="cc-number" required>
+                        <span class="error-message" id="checkout-error-number"></span>
+                    </div>
+                    <div class="split-row">
+                        <div class="field-group small">
+                            <label for="checkout-expiry">Expiration Date</label>
+                            <input type="text" id="checkout-expiry" name="checkoutExpiry" placeholder="MM/YY"
+                                maxlength="5" autocomplete="cc-exp" required>
+                            <span class="error-message" id="checkout-error-expiry"></span>
+                        </div>
+                        <div class="field-group small">
+                            <label for="checkout-cvv">CVV</label>
+                            <input type="text" id="checkout-cvv" name="checkoutCvv" placeholder="123"
+                                inputmode="numeric" maxlength="4" autocomplete="cc-csc" required>
+                            <span class="error-message" id="checkout-error-cvv"></span>
+                        </div>
+                    </div>
+                    <button id="pay-now-button" class="pay-now-btn" type="submit">Pay Now</button>
+                </form>
+            </div>
+
+            <div id="receipt-step" class="checkout-step hidden">
+                <div class="receipt-card">
+                    <h3>Payment Successful! (Demo Only)</h3>
+                    <p>Your order number is <strong id="order-number">#000000</strong></p>
+                    <div id="receipt-details" class="receipt-details"></div>
+                    <button id="receipt-close-btn" class="receipt-close-btn">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="profile-modal" class="modal" style="display: none;">
+    <div class="modal-content profile-modal-content">
+        <div class="modal-header">
+            <h2>My Profile</h2>
+            <button class="close-modal" id="close-profile-modal">&times;</button>
+        </div>
+        <div class="profile-body">
+            <div class="profile-summary">
+                <div class="profile-avatar">P</div>
+                <div class="profile-details">
+                    <div class="profile-row">
+                        <span class="profile-row-label">Name</span>
+                        <span id="profile-username" class="profile-row-value">Guest User</span>
+                    </div>
+                    <div class="profile-row">
+                        <span class="profile-row-label">Email</span>
+                        <span id="profile-email" class="profile-row-value">guest@example.com</span>
+                    </div>
+                </div>
+            </div>
+            <div class="recent-purchases">
+                <h3>Recent Purchases</h3>
+                <div id="recent-purchases-list" class="purchases-list"></div>
+            </div>
+            <button id="profile-logout-btn" class="btn-logout profile-logout-btn">Log Out</button>
+        </div>
+    </div>
+</div>
+
+<!-- Login/Register Modal -->
+<div id="login-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="modal-title">Log In</h2>
+            <button class="close-modal" id="close-modal">&times;</button>
+        </div>
+        <form id="auth-form" class="auth-form">
+            <div class="form-group" id="username-group">
+                <label for="auth-username">Username:</label>
+                <input type="text" id="auth-username" placeholder="Enter your username" required>
+            </div>
+            <div class="form-group" id="email-group" style="display: none;">
+                <label for="auth-email">Email:</label>
+                <input type="email" id="auth-email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="auth-password">Password:</label>
+                <input type="password" id="auth-password" placeholder="Enter your password" required>
+            </div>
+            <div class="form-group" id="confirm-password-group" style="display: none;">
+                <label for="auth-confirm-password">Confirm Password:</label>
+                <input type="password" id="auth-confirm-password" placeholder="Confirm your password">
+            </div>
+            <button type="submit" class="btn-submit" id="auth-submit">Log In</button>
+            <p class="toggle-text">
+                Don't have an account? <a href="#" id="toggle-register">Register here</a>
+            </p>
+            <p class="toggle-text" id="toggle-login-text" style="display: none;">
+                Already have an account? <a href="#" id="toggle-login">Log In here</a>
+            </p>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sohai's Shop</title>
+    <link rel="stylesheet" href="assets/stylesheet/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+</head>
+
+<body>
+    <div id="header-container"></div>
+
+    <div class="carousel-container">
+        <div class="carousel-slide">
+            <div class="carousel-item active">
+                <img src="assets/images/ASUS ROG Strix B550.jpg" alt="Slide 1">
+            </div>
+            <div class="carousel-item">
+                <img src="assets/images/Gigabyte B550.jpg" alt="Slide 2">
+            </div>
+            <div class="carousel-item">
+                <img src="assets/images/MSI B550 Gaming Edge.jpg" alt="Slide 3">
+            </div>
+            <div class="carousel-item">
+                <img src="assets/images/Intel Core i7-13700K.jpg" alt="Slide 4">
+            </div>
+        </div>
+        <button class="carousel-btn prev">❮</button>
+        <button class="carousel-btn next">❯</button>
+        <div class="carousel-dots">
+            <span class="dot active" data-index="0"></span>
+            <span class="dot" data-index="1"></span>
+            <span class="dot" data-index="2"></span>
+            <span class="dot" data-index="3"></span>
+        </div>
+    </div>
+    <div class="featured-section">
+        <h1>Featured Products</h1>
+
+        <div class="featured-graphics-section">
+            <div class="graphics-header">
+                <h2>Featured Graphics Card</h2>
+            </div>
+            <div class="graphics-products-container">
+                <div class="graphics-products">
+                    <div id="graphics-product-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="featured-graphics-section">
+            <div class="graphics-header">
+                <h2>Featured Mother Board</h2>
+            </div>
+            <div class="graphics-products-container">
+                <div class="graphics-products">
+                    <div id="motherboard-product-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="featured-graphics-section">
+            <div class="graphics-header">
+                <h2>Featured CPU</h2>
+            </div>
+            <div class="graphics-products-container">
+                <div class="graphics-products">
+                    <div id="cpu-product-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="site-footer">
+        <p>&copy; 2026 Sohai's Shop. All Rights Reserved.</p>
+        <div class="footer-social">
+            <p class="contact-text">Contact us more on</p>
+            <a href="https://www.facebook.com/sohaicomputer" target="_blank" class="social-icon facebook-icon">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+        </div>
+    </footer>
+
+
+    <script src="assets/script/auth.js"></script>
+    <script src="assets/script/load-header.js"></script>
+    <script src="assets/script/cart.js"></script>
+    <script src="assets/script/carousel.js"></script>
+    <script src="assets/script/card.js"></script>
+</body>
+
+</html>

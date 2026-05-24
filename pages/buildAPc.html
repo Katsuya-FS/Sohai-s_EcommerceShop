@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build A PC</title>
+    <link rel="stylesheet" href="../assets/stylesheet/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+            font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+
+        .page-shell {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 32px 20px 60px;
+        }
+
+        .builder-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+        }
+
+        .builder-grid {
+            display: grid;
+            gap: 18px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            margin-top: 24px;
+        }
+
+        label {
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1px solid #cbd5e1;
+            background: #f8fafc;
+            font-size: 0.96rem;
+            outline: none;
+        }
+
+        select:focus {
+            border-color: #7c3aed;
+        }
+
+        .summary-panel,
+        .cart-panel {
+            margin-top: 28px;
+            padding: 20px;
+            border-radius: 16px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+        }
+
+        .summary-panel h2,
+        .cart-panel h2 {
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-size: 1.15rem;
+        }
+
+        .summary-list,
+        .cart-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .summary-list li,
+        .cart-item,
+        .build-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.96rem;
+        }
+
+        .summary-list li:last-child,
+        .cart-item:last-child,
+        .build-row:last-child {
+            border-bottom: none;
+        }
+
+        .summary-total,
+        .build-total {
+            font-weight: 700;
+            margin-top: 14px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 20px;
+        }
+
+        .button-row button {
+            cursor: pointer;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 18px;
+            font-size: 0.98rem;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #1f2937;
+        }
+
+        .cart-panel {
+            overflow: auto;
+        }
+
+        .build-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 14px;
+        }
+
+        .build-card h3 {
+            margin: 0 0 12px;
+            font-size: 1rem;
+        }
+
+        .build-card p {
+            margin: 4px 0;
+            font-size: 0.92rem;
+        }
+
+        .build-total {
+            margin-top: 12px;
+        }
+
+        .empty-state {
+            color: #64748b;
+            padding: 16px 0;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 540px) {
+            .page-shell {
+                padding: 20px 16px 40px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="header-container"></div>
+
+    <main class="page-shell">
+        <div class="builder-card">
+            <h1>PC Builder</h1>
+            <p>Choose each component to preview your build and add kits to the cart.</p>
+
+            <div class="builder-grid" id="component-selects"></div>
+
+            <div class="summary-panel">
+                <h2>Build Summary</h2>
+                <ul class="summary-list" id="summary-list"></ul>
+                <div class="summary-total">
+                    <span>Total Price</span>
+                    <span id="summary-total">₱0.00</span>
+                </div>
+                <div class="button-row">
+                    <button type="button" class="btn-primary" id="add-to-cart">Add to Cart</button>
+                    <button type="button" class="btn-secondary" id="clear-cart">Clear Items</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../assets/script/auth.js"></script>
+    <script src="../assets/script/cart.js"></script>
+    <script src="../assets/script/load-header.js"></script>
+    <script src="../assets/script/collections.js"></script>
+    <script>
+        const sharedProducts = Array.isArray(window.collectionProducts)
+            ? window.collectionProducts
+            : [];
+
+        const uniqueByName = (items) =>
+            [...new Map(items.map((item) => [item.name, item])).values()];
+
+        const getSharedCategory = (category) =>
+            uniqueByName(sharedProducts.filter((product) => product.category === category))
+                .map(({ name, price }) => ({ name, price }));
+
+        const components = {
+            CPU: getSharedCategory('cpu').length
+                ? getSharedCategory('cpu')
+                : [
+                    { name: 'Intel i5-12400F', price: 180 },
+                    { name: 'AMD Ryzen 5 7600', price: 220 },
+                    { name: 'Intel i7-12700K', price: 360 }
+                ],
+            Motherboard: getSharedCategory('motherboard').length
+                ? getSharedCategory('motherboard')
+                : [
+                    { name: 'MSI B660M', price: 120 },
+                    { name: 'ASUS TUF B650', price: 150 },
+                    { name: 'Gigabyte Z790', price: 230 }
+                ],
+            RAM: [
+                { name: '16GB DDR4 3200MHz', price: 60 },
+                { name: '32GB DDR4 3600MHz', price: 110 },
+                { name: '32GB DDR5 5200MHz', price: 170 }
+            ],
+            Storage: [
+                { name: '500GB NVMe SSD', price: 55 },
+                { name: '1TB NVMe SSD', price: 90 },
+                { name: '2TB SATA SSD', price: 140 }
+            ],
+            GPU: getSharedCategory('graphics').length
+                ? getSharedCategory('graphics')
+                : [
+                    { name: 'NVIDIA RTX 3060', price: 280 },
+                    { name: 'AMD Radeon RX 7600', price: 270 },
+                    { name: 'NVIDIA RTX 4070', price: 520 }
+                ],
+            'Power Supply': [
+                { name: '550W Bronze PSU', price: 55 },
+                { name: '650W Gold PSU', price: 80 },
+                { name: '750W Gold PSU', price: 105 }
+            ]
+        };
+
+        const state = {
+            selections: {}
+        };
+
+        function formatMoney(value) {
+            return new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP', minimumFractionDigits: 2 }).format(value);
+        }
+
+        function createSelectComponent(type, items) {
+            const wrapper = document.createElement('div');
+            const label = document.createElement('label');
+            label.textContent = type;
+            label.htmlFor = `select-${type.replace(/\s+/g, '-')}`;
+
+            const select = document.createElement('select');
+            select.id = `select-${type.replace(/\s+/g, '-')}`;
+            select.dataset.component = type;
+
+            const placeholderOption = document.createElement('option');
+            placeholderOption.value = '';
+            placeholderOption.textContent = `Select ${type}`;
+            select.appendChild(placeholderOption);
+
+            items.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item.name;
+                option.textContent = `${item.name} — ${formatMoney(item.price)}`;
+                option.dataset.price = item.price;
+                select.appendChild(option);
+            });
+
+            select.addEventListener('change', updateSummary);
+            wrapper.appendChild(label);
+            wrapper.appendChild(select);
+            return wrapper;
+        }
+
+        function getSelectedParts() {
+            return Object.keys(components).map(type => {
+                const select = document.querySelector(`#select-${type.replace(/\s+/g, '-')}`);
+                const value = select?.value || '';
+                const price = parseFloat(select?.selectedOptions?.[0]?.dataset?.price || '0');
+                return { type, name: value || 'Not selected', price: value ? price : 0 };
+            });
+        }
+
+        function updateSummary() {
+            const summaryList = document.getElementById('summary-list');
+            const selected = getSelectedParts();
+            state.selections = selected.reduce((acc, part) => {
+                acc[part.type] = part;
+                return acc;
+            }, {});
+
+            summaryList.innerHTML = '';
+            let total = 0;
+
+            selected.forEach(part => {
+                const item = document.createElement('li');
+                item.innerHTML = `<span>${part.type}</span><span>${part.name === 'Not selected' ? '-' : formatMoney(part.price)}</span>`;
+                summaryList.appendChild(item);
+                total += part.price;
+            });
+
+            document.getElementById('summary-total').textContent = formatMoney(total);
+        }
+
+        function addToHeaderCart(parts) {
+            if (typeof cart !== 'undefined' && cart && typeof cart.addToCart === 'function') {
+                parts.forEach(part => {
+                    if (part.price > 0 && part.name !== 'Not selected') {
+                        cart.addToCart({ name: `${part.type}: ${part.name}`, price: part.price, currency: '₱' }, 1);
+                    }
+                });
+            }
+        }
+
+        function addToCart() {
+            const selected = getSelectedParts();
+            const hasSelection = selected.some(part => part.name !== 'Not selected');
+            if (!hasSelection) {
+                alert('Please select at least one component before adding to cart.');
+                return;
+            }
+
+            addToHeaderCart(selected);
+        }
+
+        function clearSelected() {
+            Object.keys(components).forEach(type => {
+                const select = document.querySelector(`#select-${type.replace(/\s+/g, '-')}`);
+                if (select) {
+                    select.value = '';
+                }
+            });
+            updateSummary();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('component-selects');
+
+            Object.entries(components).forEach(([type, items]) => {
+                container.appendChild(createSelectComponent(type, items));
+            });
+
+            document.getElementById('add-to-cart').addEventListener('click', addToCart);
+            document.getElementById('clear-cart').addEventListener('click', clearSelected);
+            updateSummary();
+        });
+    </script>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 Sohai's Shop. All Rights Reserved.</p>
+        <div class="footer-social">
+            <p class="contact-text">Contact us more on</p>
+            <a href="https://www.facebook.com/sohaicomputer" target="_blank" class="social-icon facebook-icon">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+        </div>
+    </footer>
+
+</body>
+
+</html>

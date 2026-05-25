@@ -152,7 +152,7 @@ body {
 
 /* Search Bar */
 .search-bar {
-    display: flex;
+    display: none;
     align-items: center;
     width: 100%;
     max-width: 550px;
@@ -192,14 +192,14 @@ body {
     align-items: center;
     flex-shrink: 0;
     margin-left: auto;
-    flex-wrap: wrap;
-    gap: 10px;
+    flex-wrap: nowrap;
+    gap: 20px;
 }
 
 .nav-list {
     list-style: none;
     display: flex;
-    gap: 10px;
+    gap: 20px;
     flex-wrap: wrap;
 }
 
@@ -218,8 +218,8 @@ body {
 /* Auth Buttons */
 .auth-buttons {
     display: flex;
-    gap: 8px;
-    margin-left: 15px;
+    gap: 6px;
+    margin-left: 0;
 }
 
 .btn-login,
@@ -278,7 +278,8 @@ body {
 .header-right-section {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
+    margin-left: auto;
 }
 
 .cart-button {
@@ -679,18 +680,42 @@ body {
     position: relative;
     width: min(580px, 90%);
     max-width: 620px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px;
+}
+
+/* Custom scrollbar styling */
+.checkout-modal-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.checkout-modal-content::-webkit-scrollbar-track {
+    background: #f5f5f5;
+    border-radius: 4px;
+}
+
+.checkout-modal-content::-webkit-scrollbar-thumb {
+    background: #999;
+    border-radius: 4px;
+}
+
+.checkout-modal-content::-webkit-scrollbar-thumb:hover {
+    background: #666;
 }
 
 .checkout-body {
     display: grid;
-    gap: 22px;
+    gap: 18px;
 }
 
 .checkout-summary {
-    background: #fafafa;
-    border: 1px solid #eee;
-    border-radius: 12px;
-    padding: 18px;
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 16px;
 }
 
 .checkout-summary h3 {
@@ -711,8 +736,8 @@ body {
     gap: 12px;
     align-items: center;
     padding: 12px;
-    border: 1px solid #e5e7eb;
-    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
     background: #fff;
 }
 
@@ -754,30 +779,29 @@ body {
 .payment-methods {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
+    gap: 10px;
 }
 
 .payment-card {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 14px 12px;
-    border: 1px solid #ddd;
-    border-radius: 12px;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
     background: #fff;
     cursor: pointer;
-    transition: border-color 0.2s ease, transform 0.2s ease;
+    transition: border-color 0.2s ease;
     position: relative;
 }
 
 .payment-card:hover {
-    border-color: #3b82f6;
-    transform: translateY(-1px);
+    border-color: #999;
 }
 
 .payment-card.selected {
     border-color: #3b82f6;
-    background: #eff6ff;
+    background: #fff;
 }
 
 .payment-card input {
@@ -831,9 +855,9 @@ body {
 
 .field-group input {
     width: 100%;
-    padding: 12px 14px;
-    border-radius: 10px;
-    border: 1px solid #ddd;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #d0d0d0;
     background: #fff;
     font-size: 14px;
 }
@@ -857,19 +881,18 @@ body {
 
 .pay-now-btn {
     width: 100%;
-    padding: 14px;
+    padding: 12px;
     border: none;
-    border-radius: 10px;
+    border-radius: 6px;
     background-color: #3b82f6;
     color: white;
     font-weight: 700;
     cursor: pointer;
-    transition: transform 0.2s ease, background-color 0.2s ease;
+    transition: background-color 0.2s ease;
 }
 
 .pay-now-btn:hover {
     background-color: #2563eb;
-    transform: translateY(-1px);
 }
 
 .checkout-loading {
@@ -901,41 +924,55 @@ body {
 }
 
 .receipt-card {
-    padding: 24px;
-    border-radius: 14px;
-    background: #f8fafc;
+    padding: 20px;
+    border-radius: 8px;
+    background: #f9f9f9;
     text-align: center;
+    border: 1px solid #e0e0e0;
 }
 
 .receipt-card h3 {
     margin-top: 0;
-    color: #111;
+    color: #333;
+    font-size: 18px;
 }
 
 .receipt-details {
-    margin: 18px 0;
+    margin: 16px 0;
     text-align: left;
-    color: #333;
+    color: #555;
+    font-size: 14px;
 }
 
 .receipt-line {
-    margin: 8px 0;
+    margin: 6px 0;
 }
 
 .receipt-close-btn {
-    padding: 12px 18px;
+    padding: 10px 16px;
     border: none;
-    border-radius: 10px;
+    border-radius: 6px;
     background-color: #3b82f6;
     color: white;
-    font-weight: 700;
+    font-weight: 600;
     cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.receipt-close-btn:hover {
+    background-color: #2563eb;
 }
 
 @media (max-width: 640px) {
     .checkout-modal-content {
         width: 100%;
         margin: 0 12px;
+        max-height: 85vh;
+        padding: 16px;
+    }
+
+    .checkout-body {
+        gap: 14px;
     }
 
     .checkout-item {
@@ -949,6 +986,15 @@ body {
 
     .payment-methods {
         grid-template-columns: 1fr;
+    }
+
+    .checkout-summary {
+        padding: 12px;
+    }
+
+    .field-group input {
+        padding: 8px 10px;
+        font-size: 13px;
     }
 }
 

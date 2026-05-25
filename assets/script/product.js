@@ -47,13 +47,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (btnPlus && btnMinus && qtyInput) {
     btnPlus.addEventListener("click", () => {
-      qtyInput.value = parseInt(qtyInput.value) + 1;
+      const current = parseInt(qtyInput.value, 10) || 1;
+      qtyInput.value = current + 1;
     });
 
     btnMinus.addEventListener("click", () => {
-      if (qtyInput.value > 1) {
-        qtyInput.value = parseInt(qtyInput.value) - 1;
+      const current = parseInt(qtyInput.value, 10) || 1;
+      if (current > 1) {
+        qtyInput.value = current - 1;
       }
+    });
+    
+    // Prevent negative or invalid numbers typed manually
+    qtyInput.addEventListener('input', () => {
+      // Remove leading/trailing spaces
+      let val = qtyInput.value.trim();
+      // If empty, don't force yet
+      if (val === '') return;
+      // Parse integer (base 10)
+      let n = parseInt(val, 10);
+      if (isNaN(n) || n < 1) {
+        qtyInput.value = 1;
+      } else {
+        qtyInput.value = n; // remove decimals / leading zeros
+      }
+    });
+
+    // Disallow non-numeric keys like e, +, - and dots
+    qtyInput.addEventListener('keydown', (e) => {
+      const invalidKeys = ['e', 'E', '+', '-', '.'];
+      if (invalidKeys.includes(e.key)) {
+        e.preventDefault();
+      }
+    });
+
+    // On blur, ensure at least 1
+    qtyInput.addEventListener('blur', () => {
+      const n = parseInt(qtyInput.value, 10);
+      if (isNaN(n) || n < 1) qtyInput.value = 1;
     });
   }
 

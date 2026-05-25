@@ -41,10 +41,12 @@ body {
 
 .header-container {
     width: 100%;
-    padding: 15px 30px;
+    padding: 15px 20px;
     display: flex;
     align-items: center;
-    gap: 50px;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 .logo {
@@ -152,8 +154,11 @@ body {
 .search-bar {
     display: flex;
     align-items: center;
-    width: 550px;
+    width: 100%;
+    max-width: 550px;
     margin: 0 auto;
+    order: 3;
+    flex-basis: 100%;
 }
 
 .search-input {
@@ -187,19 +192,23 @@ body {
     align-items: center;
     flex-shrink: 0;
     margin-left: auto;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .nav-list {
     list-style: none;
     display: flex;
-    gap: 15px;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
 .nav-list li a {
     text-decoration: none;
     color: #333;
-    font-size: 16px;
+    font-size: 14px;
     transition: color 0.3s ease;
+    white-space: nowrap;
 }
 
 .nav-list li a:hover {
@@ -1406,16 +1415,23 @@ h2 {
 .featured-section {
     background-color: var(--third-color);
     margin: 0;
-    padding: 30px;
+    padding: 20px;
+}
+
+.featured-section h1 {
+    font-size: clamp(24px, 6vw, 36px);
+    margin-bottom: 20px;
+    text-align: center;
 }
 
 .featured-graphics-section {
     background-color: var(--card-background-color);
     margin: 40px auto 0;
-    padding: 40px 30px;
+    padding: 30px 20px;
     display: flex;
-    gap: 40px;
-    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    align-items: stretch;
     max-width: 1200px;
 }
 
@@ -1430,25 +1446,26 @@ h2 {
 }
 
 .graphics-header {
-    flex: 0 0 25%;
+    flex: 0 0 auto;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 250px;
+    min-height: 150px;
 }
 
 .graphics-header h2 {
-    font-size: 42px;
+    font-size: clamp(24px, 5vw, 42px);
     margin: 0;
     font-weight: bold;
+    text-align: center;
 }
 
 .graphics-products {
     flex: 1;
     max-width: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
     margin: 0 auto;
 }
 
@@ -1478,20 +1495,18 @@ h2 {
 
 #graphics-product-list {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
     width: 100%;
-    max-width: 600px;
 }
 
 
 /*Mother Board*/
 #motherboard-product-list {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
     width: 100%;
-    max-width: 600px;
 }
 
 #motherboard-product-list .card {
@@ -1520,10 +1535,9 @@ h2 {
 
 #cpu-product-list {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
     width: 100%;
-    max-width: 600px;
 }
 
 #cpu-product-list .card {
@@ -1696,15 +1710,202 @@ h2 {
     background-color: #3b5998;
 }
 
+/* Mobile-first: Small screens */
+@media (max-width: 480px) {
+    body {
+        padding-top: 70px;
+    }
+
+    .header-container {
+        padding: 10px 15px;
+        gap: 10px;
+    }
+
+    .logo-text {
+        font-size: 18px;
+    }
+
+    .search-bar {
+        width: 100%;
+        max-width: none;
+        flex-basis: 100%;
+    }
+
+    .search-input {
+        font-size: 12px;
+        padding: 8px 10px;
+    }
+
+    .search-btn {
+        font-size: 12px;
+        padding: 8px 10px;
+    }
+
+    .nav-list {
+        gap: 8px;
+    }
+
+    .nav-list li a {
+        font-size: 12px;
+    }
+
+    .auth-buttons {
+        gap: 6px;
+        margin-left: 5px;
+    }
+
+    .btn-login,
+    .btn-register {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+
+    .btn-admin-dashboard {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+
+    .carousel-container {
+        height: 30vh;
+        min-height: 120px;
+        margin-top: 10px;
+    }
+
+    .carousel-btn {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+
+    .carousel-dots {
+        bottom: 10px;
+        gap: 6px;
+    }
+
+    .dot {
+        width: 8px;
+        height: 8px;
+    }
+
+    .featured-section {
+        padding: 15px;
+    }
+
+    .featured-graphics-section {
+        padding: 15px;
+        margin: 20px auto 0;
+        gap: 15px;
+    }
+
+    .graphics-header {
+        min-height: 100px;
+    }
+
+    .graphics-header h2 {
+        font-size: 20px;
+    }
+
+    #graphics-product-list,
+    #motherboard-product-list,
+    #cpu-product-list {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    #graphics-product-list .card,
+    #motherboard-product-list .card,
+    #cpu-product-list .card {
+        padding: 10px;
+    }
+
+    #graphics-product-list .card h3,
+    #motherboard-product-list .card h3,
+    #cpu-product-list .card h3,
+    #graphics-product-list .card h1,
+    #motherboard-product-list .card h1,
+    #cpu-product-list .card h1 {
+        font-size: 14px;
+        margin: 8px 0 6px;
+    }
+
+    #graphics-product-list .card p,
+    #motherboard-product-list .card p,
+    #cpu-product-list .card p {
+        font-size: 12px;
+    }
+
+    #product-list {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .card {
+        padding: 10px;
+    }
+
+    .card h3,
+    .card h1 {
+        font-size: 14px;
+        margin: 8px 0 4px;
+    }
+
+    .card p {
+        font-size: 12px;
+    }
+
+    .site-footer {
+        padding: 15px;
+    }
+
+    .footer-social {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .social-icon {
+        width: 35px;
+        height: 35px;
+    }
+}
+
 /* Tablet responsiveness */
 @media (max-width: 768px) {
     body {
         padding: 15px;
+        padding-top: 75px;
+    }
+
+    .header-container {
+        gap: 15px;
+    }
+
+    .search-bar {
+        width: 100%;
+        flex-basis: 100%;
+    }
+
+    .featured-graphics-section {
+        flex-direction: column;
+        gap: 20px;
+        padding: 25px;
+    }
+
+    .graphics-header {
+        min-height: 120px;
+    }
+
+    .graphics-header h2 {
+        font-size: 28px;
     }
 
     #product-list {
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         gap: 15px;
+    }
+
+    #graphics-product-list,
+    #motherboard-product-list,
+    #cpu-product-list {
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .card {
@@ -1717,27 +1918,35 @@ h2 {
 }
 
 /* Mobile responsiveness */
-@media (max-width: 480px) {
-    body {
-        padding: 10px;
+/* Extra small phones */
+@media (max-width: 360px) {
+    .header-container {
+        gap: 8px;
     }
 
+    .logo-text {
+        font-size: 16px;
+    }
+
+    .nav-list {
+        gap: 6px;
+    }
+
+    .nav-list li a {
+        font-size: 11px;
+    }
+
+    .btn-login,
+    .btn-register {
+        padding: 5px 8px;
+        font-size: 11px;
+    }
+
+    #graphics-product-list,
+    #motherboard-product-list,
+    #cpu-product-list,
     #product-list {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-        gap: 10px;
-    }
-
-    .card {
-        padding: 10px;
-    }
-
-    .card h3 {
-        margin: 8px 0 4px;
-        font-size: 14px;
-    }
-
-    .card p {
-        font-size: 14px;
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
